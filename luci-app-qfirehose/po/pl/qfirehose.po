@@ -1,0 +1,166 @@
+# Polonizacja by Rafał Wabik (IceG) from eko.one.pl forum
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+# Tytuł i opis aplikacji
+msgid "Qfirehose"
+msgstr "Qfirehose"
+
+msgid "Qfirehose is a command-line tool for flashing Qualcomm firmware on OpenWrt."
+msgstr "Interfejs użytkownika dla konsolowego narzędzia Qfirehose, umożliwia w OpenWrt wgrywanie firmware do modemów Quectel-a."
+
+# Elementy interfejsu
+msgid "Version"
+msgstr "Wersja"
+
+msgid "Firmware File"
+msgstr "Plik firmware"
+
+msgid "Upgrade package directory path"
+msgstr "Ścieżka do katalogu z plikiem aktualizacji."
+
+msgid "Communication Port"
+msgstr "Port do komunikacji"
+
+msgid "Diagnose port, will auto-detect if not specified"
+msgstr "Wybierz port, jeśli nie został określony będzie wykryty automatycznie."
+
+msgid "USB Device"
+msgstr "Urządzenie USB"
+
+msgid "When multiple modules exist on the board, use -s specify which module you want to upgrade"
+msgstr "Jeśli na płycie znajduje się wiele modułów, użyj -s, aby określić, który moduł chcesz uaktualnić."
+
+msgid "Device Type"
+msgstr "Typ urządzenia"
+
+msgid "Device Type, default nand, support emmc/ufs"
+msgstr "Typ urządzenia, domyślny NAND, wspiera emmc/ufs"
+
+msgid "NAND (Default)"
+msgstr "NAND (domyślny)"
+
+msgid "eMMC"
+msgstr "eMMC"
+
+msgid "UFS"
+msgstr "UFS"
+
+msgid "Skip MD5 Check"
+msgstr "Pomiń sprawdzanie MD5"
+
+msgid "Skip MD5 checksum verification"
+msgstr "Pomiń weryfikację sumy kontrolnej MD5."
+
+msgid "Catch USB Monitor Log"
+msgstr "Przechwyć dziennik monitora USB"
+
+msgid "Save USB monitor log to file (requires debugfs and usbmon)"
+msgstr "Zapisz dziennik monitora USB do pliku (wymaga debugfs i usbmon)"
+
+msgid "Signed Firmware"
+msgstr "Podpisane oprogramowanie"
+
+msgid "For AG215S-GLR signed firmware packages"
+msgstr "Dla pakietów oprogramowania układowego AG215S-GLR z podpisem"
+
+msgid "Flash Firmware..."
+msgstr "Wgraj firmware..."
+
+msgid "Log"
+msgstr "Plik dziennika (log)"
+
+msgid "Log file will be saved to /var/log/qfirehose/"
+msgstr "Plik dziennika zostanie zapisany w /var/log/qfirehose/"
+
+# Ostrzeżenia i komunikaty
+msgid "Please select a firmware file first."
+msgstr "Najpierw wybierz plik firmware."
+
+msgid "Firmware upgrade completed successfully."
+msgstr "Firmware zostało pomyślnie wgrane."
+
+msgid "Failed to flash firmware: "
+msgstr "Nie udało się wgrać firmware: "
+
+msgid "Error: "
+msgstr "Błąd： "
+
+msgid "Warning"
+msgstr "Ostrzeżenie"
+
+msgid "Warning."
+msgstr "Ostrzeżenie."
+
+msgid "Please ensure before proceeding:"
+msgstr "Przed kontynuowaniem upewnij się, że:"
+
+msgid "The firmware you selected is from official channels and compatible with your MODEM."
+msgstr "Wybrane oprogramowanie sprzętowe pochodzi z oficjalnych źródeł i jest kompatybilne z Twoim MODEMEM."
+
+msgid "The firmware version to be flashed should be higher than the version currently in use."
+msgstr "Wersja firmware, którą należy wgrać, musi być wyższa od wersji aktualnie używanej."
+
+msgid "Use of software is completely on your own risk."
+msgstr "Korzystasz z oprogramowania na własne ryzyko."
+
+msgid "Flashing wrong firmware or failed flash can brick your modem permanently."
+msgstr "Zainstalowanie niewłaściwego firmware lub nieudana operacja flashowania może trwale uszkodzić modem."
+
+msgid "Avoid flashing, if device works without issues and updated firmware does not contain new necessary changes."
+msgstr "Unikaj flashowania, jeśli urządzenie działa bez problemów, a zaktualizowane oprogramowanie nie zawiera nowych, niezbędnych zmian."
+
+msgid "Do not flash, if you are not willing to take this risk or do not know what you are doing."
+msgstr "Nie wgrywaj firmware, jeśli nie chcesz podjąć takiego ryzyka lub nie jesteś pewien tego co robisz."
+
+msgid "After succesful flashing, you should use terminal to issue factory reset for modem settings with AT&F command."
+msgstr "Po pomyślnym flashowaniu należy użyć terminala, aby przywrócić ustawienia fabryczne modemu za pomocą polecenia AT&F."
+
+msgid "mPCIe users (mostly): If modem has completely disappeared after succesful flashing, reason might be that some firmware updates set default mode to USB3 which is unsupported by some mPCIe slots, in this case, you should connect it to USB port using mPCIe -> USB adapter, even most of cheap chinese modules can reveal device. After this you should issue a command to use USB2, which may vary between models, but on most Quectel modems is: AT+QUSBCFG=\"SS\",0"
+msgstr "Użytkownicy mPCIe (głównie): Jeśli modem całkowicie zniknął po udanym flashowaniu, przyczyną może być to, że niektóre aktualizacje firmware ustawiają domyślny tryb na USB3, który nie jest obsługiwany przez niektóre gniazda mPCIe, w takim przypadku należy podłączyć modem do portu USB za pomocą adaptera mPCIe -> USB, nawet większość tanich chińskich modułów może pokazać urządzenie. Następnie należy wydać polecenie użycia USB2, które może się różnić w zależności od modelu, ale w przypadku większości modemów Quectel jest to: AT+QUSBCFG=\"SS\",0"
+
+msgid "Cancel"
+msgstr "Anuluj"
+
+msgid "Continue"
+msgstr "Kontynuuj"
+
+# Monity operacyjne i informacje o stanie
+msgid "Flashing Firmware"
+msgstr "Wgrywanie firmware"
+
+msgid "Starting firmware flash process..."
+msgstr "Rozpoczęcie procesu wgrywania oprogramowania..."
+
+msgid "Firmware package: "
+msgstr "Spakowany plik firmware: "
+
+msgid "Cleaning up working directory..."
+msgstr "Czyszczenie katalogu roboczego..."
+
+msgid "Creating extraction directory..."
+msgstr "Tworzenie katalogu wyodrębniania..."
+
+msgid "Extracting firmware package..."
+msgstr "Wyodrębnianie pliku firmware..."
+
+msgid "Starting Qfirehose with command:"
+msgstr "Uruchamianie Qfirehose z komendą:"
+
+msgid "For detailed log, please check "
+msgstr "Aby uzyskać szczegółowy dziennik, sprawdź "
+
+msgid "Erase All Before Download"
+msgstr "Usuń wszystko przed pobraniem"
+
+msgid "Will erase all data including calibration data, please be careful"
+msgstr "Usunie wszystkie dane, w tym dane kalibracji, proszę zachować ostrożność."
+
+msgid "Flashing firmware, please wait..."
+msgstr "Trwa wgrywanie firmware, proszę czekać..."
+
+msgid "Log file will be saved to /var/log/qfirehose/"
+msgstr "Plik dziennika zostanie zapisany w /var/log/qfirehose/"
+
+msgid "The firmware upload process has started"
+msgstr "Rozpoczęto proces wgrywania firmware"

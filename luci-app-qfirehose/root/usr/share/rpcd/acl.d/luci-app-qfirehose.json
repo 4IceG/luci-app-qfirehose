@@ -1,0 +1,39 @@
+{
+    "luci-app-qfirehose": {
+        "description": "Grant access to QFirehose configuration",
+        "read": {
+            "file": {
+                "/usr/bin/qfirehose": [ "exec" ],
+                "/usr/sbin/qfirehose-start": [ "exec" ],
+                "/usr/sbin/qfirehose-status": [ "exec" ],
+                "/usr/bin/find": [ "exec" ],
+                "/bin/mkdir": [ "exec" ],
+                "/usr/bin/unzip": [ "exec" ],
+                "/bin/cat": [ "exec" ],
+                "/tmp/qfirehoseupload": [ "read", "write", "exec" ],
+                "/tmp/qfirehoseupload/*": [ "read", "write", "exec" ],
+                "/var/log/qfirehose": [ "read", "write", "exec" ],
+                "/var/log/qfirehose/*": [ "read", "write", "exec" ],
+                "/tmp/qfirehose_debug.log": [ "read", "write" ]
+            },
+            "ubus": {
+                "file": [ "read", "write", "exec", "stat", "list" ],
+                "system": [ "info" ]
+            },
+            "uci": [ "qfirehose" ]
+        },
+        "write": {
+            "file": {
+                "/tmp/qfirehoseupload": [ "write", "exec" ],
+                "/tmp/qfirehoseupload/*": [ "write", "exec" ],
+                "/var/log/qfirehose": [ "write", "exec" ],
+                "/var/log/qfirehose/*": [ "write", "exec" ],
+                "/tmp/qfirehose_debug.log": [ "write" ]
+            },
+            "ubus": {
+                "file": [ "write", "exec", "list" ]
+            },
+            "uci": [ "qfirehose" ]
+        }
+    }
+}

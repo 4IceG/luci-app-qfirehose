@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# 检查PID文件是否存在
+if [ ! -f "/tmp/qfirehose_log/pid" ]; then
+    echo "Process not found"
+    exit 1
+fi
+
+# 读取PID
+PID=$(cat /tmp/qfirehose_log/pid)
+
+# 检查进程是否存在
+if ! kill -0 $PID 2>/dev/null; then
+    # 进程已结束，检查退出状态
+    if [ -f "/tmp/qfirehose_log/current.log" ]; then
+        # 输出最后的日志内容
+        tail -n 20 /tmp/qfirehose_log/current.log
+        # 检查是否成功完成
+        if grep -q "Firmware flashed successfully" /tmp/qfirehose_log/current.log; then
+            echo "completed"
+            rm -f /tmp/qfirehose_log/pid
+            exit 0
+        else
+            echo "failed"
+            rm -f /tmp/qfirehose_log/pid
+            exit 1
+        fi
+    fi
+else
+    # 进程正在运行，输出最新日志
+    if [ -f "/tmp/qfirehose_log/current.log" ]; then
+        tail -n 5 /tmp/qfirehose_log/current.log
+    fi
+    exit 0
+fi

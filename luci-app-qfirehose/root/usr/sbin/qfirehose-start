@@ -1,0 +1,104 @@
+#!/bin/sh
+
+# 启用调试输出
+set -x
+
+# 清理旧的调试日志
+rm -f /tmp/qfirehose_debug.log
+
+# 记录当前用户和权限信息
+echo "Current user: $(whoami)" > /tmp/qfirehose_debug.log
+echo "Current groups: $(groups)" >> /tmp/qfirehose_debug.log
+echo "Script permissions:" >> /tmp/qfirehose_debug.log
+ls -l "$0" >> /tmp/qfirehose_debug.log
+
+# 确保目录存在并有正确权限
+mkdir -p /tmp/qfirehoseupload
+chmod 777 /tmp/qfirehoseupload
+mkdir -p /tmp/qfirehose_log
+chmod 777 /tmp/qfirehose_log
+
+# 生成带时间戳的日志文件名
+timestamp=$(date +%Y%m%d_%H%M%S)
+log_file="/tmp/qfirehose_log/qfirehose_${timestamp}.log"
+pid_file="/tmp/qfirehose_log/pid"
+
+# 创建符号链接指向最新的日志文件
+ln -sf "$log_file" /tmp/qfirehose_log/current.log
+
+# 获取参数
+args="$*"
+
+# 记录执行命令
+echo "Command arguments: $args" >> "$log_file"
+
+# 记录目录权限
+echo "Directory permissions before:" >> "$log_file"
+ls -la /tmp/qfirehoseupload >> "$log_file"
+
+# 检查qfirehose是否可执行
+if [ ! -x /usr/bin/qfirehose ]; then
+    echo "Error: qfirehose is not executable" >> "$log_file"
+    exit 1
+fi
+
+# 检查目录权限
+if [ ! -w /tmp/qfirehose_log ]; then
+    echo "Error: log directory is not writable" >> "$log_file"
+    exit 1
+fi
+
+# 修复解压目录的权限
+firmware_path=$(echo "$args" | grep -o '\-f [^ ]*' | cut -d' ' -f2)
+if [ -n "$firmware_path" ] && [ -d "$firmware_path" ]; then
+    echo "Fixing permissions for firmware directory: $firmware_path" >> "$log_file"
+    chmod -R 777 "$firmware_path"
+    chown -R nobody:nogroup "$firmware_path"
+fi
+
+# 记录修改后的权限
+echo "Directory permissions after:" >> "$log_file"
+ls -la /tmp/qfirehoseupload >> "$log_file"
+
+# 修改命令行参数中的日志路径
+args=$(echo "$args" | sed 's|-l /var/log/qfirehose|-l /tmp/qfirehose_log|g')
+
+# 从参数中提取固件路径
+firmware_path=$(echo "$args" | grep -o '\-f [^ ]*' | cut -d' ' -f2)
+if [ -z "$firmware_path" ]; then
+    echo "Error: firmware path not found in arguments" >> "$log_file"
+    exit 1
+fi
+
+# 提取文件名和目录名
+filename=$(basename "$firmware_path")
+dirname=$(dirname "$firmware_path")
+
+# 清理旧文件，但保留上传的固件包
+echo "Cleaning old files..." >> "$log_file"
+find "$dirname" -type f ! -name "$filename" -delete 2>> "$log_file"
+
+# 创建解压目录
+echo "Creating extraction directory..." >> "$log_file"
+unzip_dir="${firmware_path%.*}"  # 移除.zip后缀
+mkdir -p "$unzip_dir" 2>> "$log_file"
+
+# 解压固件包
+echo "Extracting firmware..." >> "$log_file"
+unzip -o "$firmware_path" -d "$unzip_dir" 2>&1 | tee -a "$log_file"
+
+# 更新参数中的固件路径为解压后的目录
+args=$(echo "$args" | sed "s|-f [^ ]*|-f $unzip_dir|")
+
+# 启动qfirehose并将其放入后台运行
+echo "Starting qfirehose..." >> "$log_file"
+(/usr/bin/qfirehose $args 2>&1 | tee -a "$log_file" & echo $!) > "$pid_file" 2>> "$log_file"
+
+# 检查是否成功启动
+if [ $? -eq 0 ]; then
+    echo "Successfully started qfirehose" >> "$log_file"
+    cat "$pid_file" | tee -a "$log_file"
+else
+    echo "Failed to start qfirehose" >> "$log_file"
+    exit 1
+fi
